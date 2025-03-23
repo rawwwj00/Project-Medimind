@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicine Reminder with FCM</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="datetime-local"] { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #tokenStatus { margin-top: 10px; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Medicine Reminder Setup</h1>
+    
+    <!-- FCM Token Section -->
+    <div class="form-group">
+        <h3>Step 1: Get Notification Permission</h3>
+        <button id="getTokenBtn">Enable Notifications</button>
+        <div id="tokenStatus">Notification status: Not enabled</div>
+    </div>
+
+    <!-- Reminder Form -->
+    <div class="form-group">
+        <h3>Step 2: Set Reminder</h3>
+        <form id="reminderForm" method="POST" action="/submit">
+            <div class="form-group">
+                <label for="name">Patient Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="medicine">Medicine Name:</label>
+                <input type="text" id="medicine" name="medicine" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="time">Reminder Time:</label>
+                <input type="datetime-local" id="time" name="time" required>
+            </div>
+            
+            <button type="submit">Set Reminder</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js"></script>
+    
+    <script>
+        // Firebase configuration (replace with your actual config)
+        const firebaseConfig = {
+  apiKey: "AIzaSyBkBOQxRfjgbSRaXba72WDp6wa9S0X-Q0Q",
+  authDomain: "banded-oven-454521-k7.firebaseapp.com",
+  projectId: "banded-oven-454521-k7",
+  storageBucket: "banded-oven-454521-k7.firebasestorage.app",
+  messagingSenderId: "893446660532",
+  appId: "1:893446660532:web:30cf0dccd20590873952e1"
+};
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        // DOM elements
+        const tokenBtn = document.getElementById('getTokenBtn');
+        const tokenStatus = document.getElementById('tokenStatus');
+        const reminderForm = document.getElementById('reminderForm');
+
+        // Request notification permission
+        tokenBtn.addEventListener('click', () => {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    getFCMToken();
+                } else {
+                    tokenStatus.textContent = 'Notifications blocked. Please enable permissions in browser settings.';
+                }
+            });
+        });
+
+        // Get FCM token
+        function getFCMToken() {
+            messaging.getToken().then(currentToken => {
+                if (currentToken) {
+                    sendTokenToServer(currentToken);
+                } else {
+                    tokenStatus.textContent = 'No token available. Please try again.';
+                }
+            }).catch(err => {
+                console.error('Token error:', err);
+                tokenStatus.textContent = 'Error getting token. Please try again.';
+            });
+        }
+
+        // Send token to server
+        function sendTokenToServer(token) {
+            fetch('/save-token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token })
+            })
+            .then(response => {
+                if (response.ok) {
+                    tokenStatus.textContent = 'Notifications enabled! You can now set reminders.';
+                    tokenBtn.disabled = true;
+                } else {
+                    tokenStatus.textContent = 'Failed to save token. Please try again.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                tokenStatus.textContent = 'Network error. Please try again.';
+            });
+        }
+
+        // Handle form submission
+        reminderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(reminderForm);
+            const data = {
+                name: formData.get('name'),
+                medicine: formData.get('medicine'),
+                time: formData.get('time')
+            };
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                reminderForm.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error setting reminder. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
