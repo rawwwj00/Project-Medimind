@@ -100,7 +100,7 @@
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 alert('Login successful! Welcome to MediMind.');
-                window.location.href = '/dashboard.html'; // Create this later
+                window.location.href = 'index.html'; // Create this later
             } catch (error) {
                 alert('Login failed: ' + error.message);
             }
