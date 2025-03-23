@@ -1,0 +1,2 @@
+runtime: python39  # Use your Python version (e.g., python37, python38, python39)
+entrypoint: gunicorn -b :$PORT app:app  # Replace "app:app" with your Flask instance (file:variable)
