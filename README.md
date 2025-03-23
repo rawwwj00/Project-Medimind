@@ -1,5 +1,5 @@
 # Medimind.live
-# MediMind.Live
+
 
 MediMind.Live is a web-based platform designed to provide mental health resources, assessments, and community support for users seeking mental well-being solutions.
 
