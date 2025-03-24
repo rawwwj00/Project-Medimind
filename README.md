@@ -1,7 +1,7 @@
 # Medimind.live
 
 
-MediMind.Live is a web-based platform designed to provide mental health resources, assessments, and community support for users seeking mental well-being solutions.
+[MediMind.Live](https://www.medimind.live/) is a web-based platform designed to provide mental health resources, assessments, and community support for users seeking mental well-being solutions.
 
 ## Features
 
@@ -65,5 +65,5 @@ For any questions or feedback, reach out at **[contact@medimind.live](mailto\:co
 
 ### Live Demo
 
-[Visit MediMind.Live](https://www.medimind.live/)
+
 
