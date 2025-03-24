@@ -2,42 +2,47 @@
 <html>
 <head>
     <title>Medicine Reminder with FCM</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="text"], input[type="datetime-local"] { width: 100%; padding: 8px; }
-        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-        #tokenStatus { margin-top: 10px; color: #666; }
-    </style>
+    
+    <link rel="stylesheet" href="/automated_push_notifications/templates/style.css">
+    <!--     FEVICON ICON -->
+    <link href="/assets/images/Untitled design (2) (1).png" rel="shortcut icon">
 </head>
 <body>
-    <h1>Medicine Reminder Setup</h1>
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <!-- Replace "logo.png" with your actual logo path -->
+        <img src="/automated_push_notifications/templates/logo.png" alt="MediMind Logo" class="logo-img">
+        <div>
+            
+            <div class="logo-tagline"><b>Your Personal Medicine Reminder</b></div>
+        </div>
+    </div>
+    
+    <h1><b>Medicine Reminder Setup!</b></h1>
     
     <!-- FCM Token Section -->
     <div class="form-group">
-        <h3>Step 1: Get Notification Permission</h3>
+        <h3><b>Step 1: Get Notification Permission</b></h3>
         <button id="getTokenBtn">Enable Notifications</button>
         <div id="tokenStatus">Notification status: Not enabled</div>
     </div>
 
     <!-- Reminder Form -->
     <div class="form-group">
-        <h3>Step 2: Set Reminder</h3>
+        <h3><b>Step 2: Set Reminder</b></h3>
         <form id="reminderForm" method="POST" action="/submit">
             <div class="form-group">
-                <label for="name">Patient Name:</label>
+                <label for="name"><b>Patient Name:</b></label>
                 <input type="text" id="name" name="name" required>
             </div>
             
             <div class="form-group">
-                <label for="medicine">Medicine Name:</label>
+                <label for="medicine"><b>Medicine Name:</b></label>
                 <input type="text" id="medicine" name="medicine" required>
             </div>
             
             <div class="form-group">
-                <label for="time">Reminder Time:</label>
+                <label for="time"><b>Reminder Time:</b></label>
                 <input type="datetime-local" id="time" name="time" required>
             </div>
             
@@ -52,13 +57,13 @@
     <script>
         // Firebase configuration (replace with your actual config)
         const firebaseConfig = {
-  apiKey: "AIzaSyBkBOQxRfjgbSRaXba72WDp6wa9S0X-Q0Q",
-  authDomain: "banded-oven-454521-k7.firebaseapp.com",
-  projectId: "banded-oven-454521-k7",
-  storageBucket: "banded-oven-454521-k7.firebasestorage.app",
-  messagingSenderId: "893446660532",
-  appId: "1:893446660532:web:30cf0dccd20590873952e1"
-};
+            apiKey: "AIzaSyBkBOQxRfjgbSRaXba72WDp6wa9S0X-Q0Q",
+            authDomain: "banded-oven-454521-k7.firebaseapp.com",
+            projectId: "banded-oven-454521-k7",
+            storageBucket: "banded-oven-454521-k7.firebasestorage.app",
+            messagingSenderId: "893446660532",
+            appId: "1:893446660532:web:30cf0dccd20590873952e1"
+        };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
