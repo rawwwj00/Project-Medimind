@@ -1,0 +1,151 @@
+/* Dark Mode Overrides */
+/*----------------------------------------*/
+/*----- Basic Colors -----*/
+/*----------------------------------------*/
+body { 
+    background-color: #1a1a1a !important; 
+    color: rgba(255,255,255,0.8) !important;
+}
+
+h1, h2, h3, h4, h5, h6, 
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { 
+    color: #ffffff !important; 
+}
+
+/*----------------------------------------*/
+/*----- Backgrounds -----*/
+/*----------------------------------------*/
+.bg-white { background-color: #2d2d2d !important; }
+.bg-gray { background-color: #3a3a3a !important; }
+.bg-light-blue { background-color: #2a4365 !important; }
+.bg-light-cyan { background-color: #234e52 !important; }
+.bg-light-orange { background-color: #652b1a !important; }
+.bg-purple { background-color: #3d2a4d !important; }
+
+/*----------------------------------------*/
+/*----- Text Colors -----*/
+/*----------------------------------------*/
+.color-dark { color: #ffffff !important; }
+.color-dark-gray { color: #b3b3b3 !important; }
+.color-dark-secondary { color: #e0e0e0 !important; }
+
+/*----------------------------------------*/
+/*----- Header -----*/
+/*----------------------------------------*/
+#dtr-header-global.on-scroll { 
+    background-color: #2d2d2d !important;
+    box-shadow: 0 2px 15px 0 rgba(0,0,0,0.2) !important;
+}
+
+.dtr-menu-dark .nav-link { color: #ffffff !important; }
+
+/*----------------------------------------*/
+/*----- Footer -----*/
+/*----------------------------------------*/
+#dtr-footer { 
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #333333 !important;
+}
+
+/*----------------------------------------*/
+/*----- Components -----*/
+/*----------------------------------------*/
+.dtr-servicebox,
+.dtr-pricing,
+.dtr-testimonial,
+.dtr-accordion .accordion-item {
+    background-color: #2d2d2d !important;
+    border-color: #3a3a3a !important;
+}
+
+.dtr-shadow {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3) !important;
+}
+
+/*----------------------------------------*/
+/*----- Forms -----*/
+/*----------------------------------------*/
+select, 
+textarea, 
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    background-color: #333333 !important;
+    border-color: #444444 !important;
+    color: #ffffff !important;
+}
+
+::-webkit-input-placeholder { color: rgba(255,255,255,0.5) !important; }
+
+/*----------------------------------------*/
+/*----- Buttons -----*/
+/*----------------------------------------*/
+.dtr-btn,
+.btn-blue {
+    background-color: #4a47a3 !important;
+    border-color: #4a47a3 !important;
+}
+
+.btn-white-bordered {
+    background-color: #333333 !important;
+    border-color: #444444 !important;
+    color: #ffffff !important;
+}
+
+/*----------------------------------------*/
+/*----- Special Sections -----*/
+/*----------------------------------------*/
+.dtr-section-with-bg .dtr-overlay-dark { 
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.dtr-dark-bg-intro .dtr-intro-content {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+/*----------------------------------------*/
+/*----- Tables & Lists -----*/
+/*----------------------------------------*/
+.dtr-border-top,
+.dtr-border-right,
+.dtr-border-bottom,
+.dtr-border-left {
+    border-color: #3a3a3a !important;
+}
+
+/*----------------------------------------*/
+/*----- Images -----*/
+/*----------------------------------------*/
+.dtr-team-img img {
+    filter: brightness(0.9);
+}
+
+/*----------------------------------------*/
+/*----- Transitions -----*/
+/*----------------------------------------*/
+#dtr-header-global,
+.dtr-btn,
+.dtr-menu-dark .nav-link {
+    transition: all 0.3s ease !important;
+}
+
+/*----------------------------------------*/
+/*----- FAQ Accordion -----*/
+/*----------------------------------------*/
+.dtr-accordion .accordion-header .accordion-button {
+    color: #ffffff !important; /* Ensure the question text is white for visibility */
+}
+
+.dtr-accordion .accordion-body {
+    color: rgba(255,255,255,0.8) !important; /* Match the body text color for the answer text */
+}
+
+/* Optional: Style the accordion button when collapsed or active */
+.dtr-accordion .accordion-button.collapsed {
+    color: #ffffff !important; /* Ensure the collapsed state is also white */
+}
+
+.dtr-accordion .accordion-button:not(.collapsed) {
+    color: #ffffff !important; /* Ensure the active (expanded) state is white */
+    background-color: #3a3a3a !important; /* Slightly lighter background for the active state */
+}
