@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/your-sub-path(.*)",
+      "destination": "https://thirdparty.com/link$1"
+    }
+  ]
+}
