@@ -236,3 +236,6 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .accent-color { color: #7a14ff !important; }
 /*== accent link hover ==*/
 .accent-color-hover:hover { color: #7a14ff !important; }
+.op{
+    color: #05182b;
+}
