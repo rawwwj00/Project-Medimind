@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicine Reminder with FCM</title>
+    <link href="https://www.medimind.live/assets/images/Untitled design (2) (1).png" rel="shortcut icon">
+    <style>
+        /* style.css - Medimind Theme */
+        :root {
+            --primary-blue: #c2c6ca;
+            --secondary-blue: #4a4d51;
+            --light-blue: #f5f6f7;
+            --dark-blue: #48699b;
+            --white: #fdfcfc;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #5f6368;
+            --success-green: #34a853;
+            --error-red: #ea4335;
+        }
+
+        body {
+            font-family: 'Google Sans', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1, h3 {
+            color: black;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d3d1d1;
+        }
+
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .logo-tagline {
+            font-size: 23px;
+            color: #39393a;
+            margin-top: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://www.medimind.live/assets/images/logo.png" alt="MediMind Logo" class="logo-img">
+        <div>
+            <div class="logo-tagline"><b>Your Personal Medicine Reminder</b></div>
+        </div>
+    </div>
+    
+    <h1><b>Medicine Reminder Setup!</b></h1>
+    <div class="form-group">
+        <h3><b>Step 1: Get Notification Permission (Press the button atleast once)</b></h3>
+        <button id="getTokenBtn">Enable Notifications</button>
+        <div id="tokenStatus">Notification status: Not enabled (Press the button above)</div>
+    </div>
+    <div class="form-group">
+        <h3><b>Step 2: Set Reminder</b></h3>
+        <form id="reminderForm" method="POST" action="/submit">
+            <div class="form-group">
+                <label for="name"><b>Your Name:</b></label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="medicine"><b>Medicine Name:</b></label>
+                <input type="text" id="medicine" name="medicine" required>
+            </div>
+            <div class="form-group">
+                <label for="time"><b>Reminder Time:</b></label>
+                <input type="datetime-local" id="time" name="time" required>
+            </div>
+            <button type="submit">Set Reminder</button>
+        </form>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
+  <script>
+    // Firebase configuration (replace with your actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBkBOQxRfjgbSRaXba72WDp6wa9S0X-Q0Q",
+      authDomain: "banded-oven-454521-k7.firebaseapp.com",
+      projectId: "banded-oven-454521-k7",
+      storageBucket: "banded-oven-454521-k7.appspot.com",
+      messagingSenderId: "893446660532",
+      appId: "1:893446660532:web:30cf0dccd20590873952e1"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    // Global variable to store FCM token
+    let fcmToken = null;
+    const tokenBtn = document.getElementById('getTokenBtn');
+    const tokenStatus = document.getElementById('tokenStatus');
+    const reminderForm = document.getElementById('reminderForm');
+
+    tokenBtn.addEventListener('click', () => {
+      // Request notification permission first
+      Notification.requestPermission().then(permission => {
+        if (permission !== 'granted') {
+          tokenStatus.textContent = 'Permission not granted.';
+          return;
+        }
+        // Register the service worker and then wait until it's ready
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then(registration => {
+              console.log('Service Worker registered with scope:', registration.scope);
+              return navigator.serviceWorker.ready;
+            })
+            .then(registration => {
+              console.log('Service Worker is active:', registration);
+              // Get the FCM token using the active service worker registration
+              messaging.getToken({ serviceWorkerRegistration: registration })
+                .then(currentToken => {
+                  if (currentToken) {
+                    fcmToken = currentToken; // store token globally
+                    tokenStatus.textContent = 'Notifications enabled! You can now set reminders.';
+                    tokenBtn.disabled = true;
+                    console.log("FCM Token:", currentToken);
+    
+                  } else {
+                    tokenStatus.textContent = 'No token available. Please try again.';
+                    console.error("No token returned.");
+                  }
+                })
+                .catch(err => {
+                  console.error('Token error:', err);
+                  tokenStatus.textContent = 'Error getting token: ' + err.message;
+                });
+            })
+            .catch(error => {
+              console.error('Service Worker registration or activation failed:', error);
+              tokenStatus.textContent = 'Service Worker error: ' + error.message;
+            });
+        } else {
+          tokenStatus.textContent = 'Service workers are not supported in your browser.';
+        }
+      });
+    });
+
+    // Handle reminder form submission, including the FCM token
+    reminderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(reminderForm);
+      const data = {
+        name: formData.get('name'),
+        medicine: formData.get('medicine'),
+        time: formData.get('time'),
+        fcm_token: fcmToken  // include the token with the reminder data
+      };
+
+      console.log("Submitting reminder data:", data);
+      
+      fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(message => {
+        alert(message);
+        window.location.href="https://medimind.live";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error setting reminder. Please try again.');
+      });
+    });
+  </script>
+</body>
+</html>
+
