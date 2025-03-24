@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/your-sub-path(.*)",
+      "source": "/reminder-form",
       "destination": "https://thirdparty.com/link$1"
     }
   ]
