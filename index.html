@@ -20,10 +20,19 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
 <link rel="stylesheet" href="assets/css/color.css">
+<link rel="stylesheet" href="assets/css/dark-mode.css" id="dark-mode-css" disabled>
+<link rel="stylesheet" href="assets/css/toggle.css">
 </head>
 <body>
 <div id="dtr-wrapper" class="clearfix">
-
+    <div class="theme-toggle" style="position: fixed; top: 15px; right: 15px; z-index: 9999;">
+        <label class="theme-switch" for="theme-switch">
+            <span class="sun-icon">☀️</span>
+            <input type="checkbox" id="theme-switch">
+            <span class="slider round"></span>
+            <span class="moon-icon">🌙</span>
+        </label>
+    </div>
     <!-- preloader starts -->
     <div class="dtr-preloader">
         <div class="dtr-preloader-inner">
@@ -1165,5 +1174,40 @@
 <script src="assets/js/plugins.js"></script>
 <script src="assets/js/slick.min.js"></script>
 <script src="assets/js/custom.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleSwitch = document.getElementById('theme-switch');
+        const darkModeCSS = document.getElementById('dark-mode-css');
+
+        // Debugging: Confirm elements are found
+        console.log('Toggle Switch:', toggleSwitch);
+        console.log('Dark Mode CSS:', darkModeCSS);
+
+        // Check for saved user preference (if any)
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            toggleSwitch.checked = true;
+            darkModeCSS.disabled = false;
+            console.log('Dark mode enabled on load');
+        } else {
+            console.log('Dark mode disabled on load');
+        }
+
+        // Toggle dark mode on change
+        toggleSwitch.addEventListener('change', () => {
+            console.log('Toggle clicked, checked:', toggleSwitch.checked);
+            if (toggleSwitch.checked) {
+                darkModeCSS.disabled = false; // Enable dark mode
+                localStorage.setItem('darkMode', 'enabled');
+                console.log('Dark mode enabled');
+            } else {
+                darkModeCSS.disabled = true;  // Disable dark mode
+                localStorage.setItem('darkMode', 'disabled');
+                console.log('Dark mode disabled');
+            }
+            // Debugging: Confirm the disabled state
+            console.log('Dark Mode CSS disabled state:', darkModeCSS.disabled);
+        });
+    });
+</script>
 </body>
 </html>
