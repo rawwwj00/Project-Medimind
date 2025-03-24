@@ -92,6 +92,18 @@ input[type="password"] {
     color: #ffffff !important;
 }
 
+.login-btn {
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+    color: #1a1a1a !important;
+}
+.login-btn:hover {
+    background-color: #e0e0e0 !important;
+    border-color: #e0e0e0 !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2) !important;
+}
+
 /*----------------------------------------*/
 /*----- Special Sections -----*/
 /*----------------------------------------*/
