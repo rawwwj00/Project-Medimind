@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/reminder-form",
-      "destination": "https://thirdparty.com/link$1"
+      "destination": "https://banded-oven-454521-k7.el.r.appspot.com/"
     }
   ]
 }
