@@ -15,7 +15,7 @@ MediMind.Live is a web-based platform designed to provide mental health resource
 - Frontend: React.js, Tailwind CSS
 - Backend: Node.js, Express.js
 - Database: Firebase
-- Deployment: Vercel / Google Cloud
+- Deployment: Vercel (Front-end) / Google Cloud (Back-end)
 
 ## Installation
 
