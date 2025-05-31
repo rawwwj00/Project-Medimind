@@ -1356,6 +1356,16 @@
 <script src="https://files.bpcontent.cloud/2025/03/26/15/20250326151221-B03XJ0R3.js"></script>
 <!-- Mobile Menu Toggle Script -->
 <script>
+const form = document.getElementById('contactform');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const data = {};
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
   // Toggle the mobile menu when the hamburger button is clicked
   document.getElementById("dtr-menu-button").addEventListener("click", function() {
     var mobileMenu = document.querySelector(".dtr-responsive-header-menu");
